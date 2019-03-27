@@ -3,6 +3,8 @@ import { protractor } from 'protractor';
 import { Start } from '../../spec/screenplay/tasks/start';
 import { AddATodoItem } from '../../spec/screenplay/tasks/add_a_todo_item'
 import { listOf } from '../../spec/text';
+import { expect } from '../../spec/expect';
+import { TodoList } from '../../spec/screenplay/components/todo_list';
 
 export = function todoUserSteps() {
     
@@ -28,7 +30,7 @@ export = function todoUserSteps() {
         );
     });
 
-    this.Then(/^.* todo list should contain (.*?)$/, function (items: string, callback) {
-        callback(null, 'pending');
+    this.Then(/^.* todo list should contain (.*?)$/, function (items: string) {
+        return expect(actor.toSee(TodoList.Items_Displayed)).to.eventually.deep.equal(listOf(items));
     });
 };
