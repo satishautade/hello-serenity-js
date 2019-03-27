@@ -1,5 +1,7 @@
-import { Actor } from 'serenity-js/protractor';
+import { Actor, BrowseTheWeb } from 'serenity-js/protractor';
+import { protractor } from 'protractor';
 import { Start } from '../../spec/screenplay/tasks/start';
+import { AddATodoItem } from '../../spec/screenplay/tasks/add_a_todo_item'
 import { listOf } from '../../spec/text';
 
 export = function todoUserSteps() {
@@ -11,7 +13,7 @@ export = function todoUserSteps() {
 
     this.Given(/^.*that (.*) has a todo list containing (.*)$/, function (actorName: string, items: string) {
         //Define an actor
-        actor = Actor.named(actorName);
+        actor = Actor.named(actorName).whoCan(BrowseTheWeb.using(protractor.browser));
         
         // Actor has a Goal and performs a Task to achieve Goal
         return actor.attemptsTo(
@@ -20,8 +22,10 @@ export = function todoUserSteps() {
         );
     });
 
-    this.When(/^s?he adds (.*?) to (?:his|her) list$/, function (itemName: string, callback) {
-        callback(null, 'pending');
+    this.When(/^s?he adds (.*?) to (?:his|her) list$/, function (itemName: string) {
+        return actor.attemptsTo(
+            AddATodoItem.called(itemName)
+        );
     });
 
     this.Then(/^.* todo list should contain (.*?)$/, function (items: string, callback) {
