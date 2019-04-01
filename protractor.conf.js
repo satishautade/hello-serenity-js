@@ -19,7 +19,8 @@ exports.config = {
     ignoreUncaughtExceptions: true,
 
     framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
+    // frameworkPath: require.resolve('protractor-cucumber-framework'),
+    frameworkPath: require.resolve('serenity-js'),
 
     specs: [ 'features/**/*.feature' ],
 
@@ -32,12 +33,11 @@ exports.config = {
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-            args: [
-                'disable-infobars'
-                // 'incognito',
-                // 'disable-extensions',
-                // 'show-fps-counter=true'
-            ]
+          args: [
+            "disable-infobars",
+            "--ignore-certificate-errors",
+            "--disable-gpu"
+          ]
         }
     }
 };
